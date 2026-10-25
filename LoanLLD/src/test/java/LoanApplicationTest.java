@@ -2,6 +2,7 @@ import controller.LoanController;
 import controller.PaymentController;
 import model.Balance;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import service.*;
 import util.InMemoryLockUtilImpl;
 import util.LockUtil;
@@ -16,11 +17,9 @@ public class LoanApplicationTest {
 
     static LoanController loanController = new LoanController(loanService, bankService, userService);
     static PaymentController paymentController = new PaymentController(paymentService, bankService, userService, loanService);
-    public static void main(String[] args) {
-        createLoanPaymentbalance();
-    }
 
-    private static void createLoanPaymentbalance() {
+    @Test
+    void createLoanPaymentbalance() {
         loanController.create("IDIDI", "Dale", 10000, 5, 4);
         loanController.create("MBI", "Harry", 2000, 2, 2);
 
