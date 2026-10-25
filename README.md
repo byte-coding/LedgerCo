@@ -6,7 +6,7 @@ A command-driven loan management system that handles loan origination, EMI calcu
 
 ## Prerequisites
 
-- Java 8+
+- JDK 8 or newer (tested on 17 and 21)
 - Maven 3.6+
 
 ---
@@ -14,16 +14,19 @@ A command-driven loan management system that handles loan origination, EMI calcu
 ## Build & Run
 
 ```bash
-# Build
+git clone https://github.com/byte-coding/LedgerCo.git
+cd LedgerCo/LoanLLD   # run everything from here: input.txt is resolved relative to this folder
+
+# Build and run the tests
 mvn clean package
 
 # Run
-mvn exec:java -Dexec.mainClass="Driver"
+mvn compile exec:java
 ```
 
-The application reads commands from `src/main/resources/input.txt` and prints `BALANCE` results to stdout.
+The application reads commands from `src/main/resources/input.txt` and prints an `EMI App` header followed by one line per `BALANCE` command.
 
-To run tests:
+To run only the tests:
 ```bash
 mvn test
 ```
@@ -66,8 +69,9 @@ BALANCE MBI Harry 12
 
 **stdout**
 ```
+EMI App
 IDIDI Dale 2000 50
-MBI Harry 16800 60
+MBI Harry 12336 60
 ```
 
 **How `IDIDI Dale 2000 50` is derived:**
@@ -82,12 +86,22 @@ outstanding      = 12000 − 2000 = 10000
 emiLeft          = ⌈10000 / 200⌉ = 50
 ```
 
+**How `MBI Harry 12336 60` is derived:**
+```
+interest         = ⌈50000 × 6 × 8 / 100⌉ = 24000
+totalDue         = 74000
+monthlyPayment   = ⌈74000 / 72⌉ = 1028
+totalPaid        = 1028 × 12 = 12336
+emiLeft          = 72 − 12 = 60
+```
+
 ---
 
 ## Project Structure
 
 ```
 LedgerCo/
+├── .gitignore
 ├── HLD.md                          # High-Level Design
 ├── LLD.md                          # Low-Level Design
 └── LoanLLD/
